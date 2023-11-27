@@ -2,12 +2,21 @@ import "dotenv/config";
 import cors from "cors";
 
 import express from "express";
+import morgan from "morgan";
 
 const app = express();
 
 const PORT = process.env.PORT || 8000;
-
+// middlewares
 app.use(cors());
+app.use(express.json());
+app.use(morgan("dev"));
+app.get("/", (req, res) => {
+  res.json({
+    status: "success",
+    message: "server is running",
+  });
+});
 
 app.use("*", (req, res, next) => {
   const error = {
