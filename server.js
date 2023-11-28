@@ -3,14 +3,26 @@ import cors from "cors";
 
 import express from "express";
 import morgan from "morgan";
+import userRouter from "./src/routers/userRouter.js";
 
 const app = express();
 
 const PORT = process.env.PORT || 8000;
+
+// DB connection
+
+import { connectDB } from "./src/config/dbConfig.js";
+
+connectDB();
 // middlewares
 app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
+
+// api endpoints
+
+app.use("/api/v1/users", userRouter);
+
 app.get("/", (req, res) => {
   res.json({
     status: "success",

@@ -1,0 +1,26 @@
+@rootAPI = http://localhost:8000/api/v1/users
+
+#======== admin user====
+
+###
+POST {{rootAPI}}/admin-user
+Content-Type: application/json
+
+{
+    "fname": "samir",
+    "lname":"shrestha",
+    "email": "sa2@email.com",
+    "phone": "432429530",
+    "password": "321424"
+    
+}
+
+
+#======= student user=====
+
+### get students profile
+GET {{rootAPI}}
+
+### create new students acounts
+POST {{rootAPI}}
+
