@@ -25,3 +25,27 @@ export const newUserValidation = (req, res, next) => {
     next(error);
   }
 };
+
+export const loginValidation = (req, res, next) => {
+  try {
+    // model what the validation is
+
+    const schema = Joi.object({
+      email: Joi.string().email({ minDomainSegments: 2 }).required(),
+
+      password: Joi.string().required(),
+    });
+
+    const { error } = schema.validate(req.body);
+
+    if (error) {
+      return res.json({
+        status: "error",
+        message: error.message,
+      });
+    }
+    next();
+  } catch (error) {
+    next(error);
+  }
+};

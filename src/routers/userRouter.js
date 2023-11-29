@@ -1,14 +1,17 @@
 import express from "express";
-import { createUser } from "../models/user/UserModel.js";
-import { hashPassword } from "../utils/bcrypt.js";
-import { newUserValidation } from "../middlewares/joiValidation.js";
+import { createUser, getUserByEmail } from "../models/user/UserModel.js";
+import { comparePassword, hashPassword } from "../utils/bcrypt.js";
+import {
+  loginValidation,
+  newUserValidation,
+} from "../middlewares/joiValidation.js";
 
 const router = express.Router();
 
 router.get("/", (req, res, next) => {
   try {
     res.json({
-      status: "successs",
+      status: "success",
       message: "to do get user",
     });
   } catch (error) {
@@ -19,8 +22,38 @@ router.get("/", (req, res, next) => {
 router.post("/", (req, res, next) => {
   try {
     res.json({
-      status: "successs",
+      status: "success",
       message: "to do post user",
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/login", loginValidation, async (req, res, next) => {
+  try {
+    const { email, password } = req.body;
+
+    // get user by email
+
+    const user = await getUserByEmail(email);
+    console.log(user);
+
+    // check if the user exist in db bychecking the id and if exist then check the password from db and the plaintext matches
+
+    if (user?._id) {
+      // ismatched variable is gonna give truthy or falsy value
+      const isMatched = comparePassword(password, user.password);
+      if (isMatched) {
+        return res.json({
+          status: "success",
+          message: "to do post user",
+        });
+      }
+    }
+    res.json({
+      status: "error",
+      message: "Invalid login detials",
     });
   } catch (error) {
     next(error);
@@ -43,7 +76,7 @@ router.post("/admin-user", newUserValidation, async (req, res, next) => {
 
     user?._id
       ? res.json({
-          status: "successs",
+          status: "success",
           message: " created admin user",
         })
       : res.json({
