@@ -5,6 +5,7 @@ import {
   loginValidation,
   newUserValidation,
 } from "../middlewares/joiValidation.js";
+import { signJwtToken, signJwts } from "../utils/jwtHelper.js";
 
 const router = express.Router();
 
@@ -37,17 +38,21 @@ router.post("/login", loginValidation, async (req, res, next) => {
     // get user by email
 
     const user = await getUserByEmail(email);
-    console.log(user);
 
     // check if the user exist in db bychecking the id and if exist then check the password from db and the plaintext matches
 
     if (user?._id) {
       // ismatched variable is gonna give truthy or falsy value
+
       const isMatched = comparePassword(password, user.password);
       if (isMatched) {
+        // jwts
+
+        const jwts = signJwts({ email: user.email });
         return res.json({
           status: "success",
           message: "to do post user",
+          jwts,
         });
       }
     }
