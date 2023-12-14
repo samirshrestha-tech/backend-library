@@ -15,3 +15,9 @@ export const getUserByEmail = (email) => {
 // update
 
 // delete
+
+// create refreshToken and save in user table
+
+export const refreshToken = async (email, refreshToken) => {
+  return await UserSchema.findOneAndUpdate({ email }, { refreshToken });
+};

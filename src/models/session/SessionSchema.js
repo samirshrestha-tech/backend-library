@@ -1,15 +1,15 @@
 import mongoose from "mongoose";
 
-const SessionSchema = new mongoose.Schema(
+const sessionSchema = new mongoose.Schema(
   {
     token: {
       type: String,
-      default: "student",
+      required: true,
     },
 
     associate: {
       type: String,
-      required: true,
+      default: "",
     },
   },
   {

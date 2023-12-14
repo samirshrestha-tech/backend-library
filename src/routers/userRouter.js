@@ -48,7 +48,7 @@ router.post("/login", loginValidation, async (req, res, next) => {
       if (isMatched) {
         // jwts
 
-        const jwts = signJwts({ email: user.email });
+        const jwts = signJwts(user.email);
         return res.json({
           status: "success",
           message: "to do post user",
