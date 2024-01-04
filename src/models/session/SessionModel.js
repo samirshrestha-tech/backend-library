@@ -10,3 +10,7 @@ export const createSession = (obj) => {
 export const readSessionToken = (email, token) => {
   return sessionSchema.findOne(email, { token });
 };
+// filter must be an object
+export const getSession = (filter) => {
+  return sessionSchema.findOne(filter);
+};

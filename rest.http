@@ -15,11 +15,23 @@ Content-Type: application/json
     
 }
 
+###
+POST {{rootAPI}}/login
+Content-Type: application/json
+
+{
+    
+    "email": "sa2@email.com",
+    "password": "321424"
+    
+}
+
 
 #======= student user=====
 
 ### get students profile
 GET {{rootAPI}}
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNhMkBlbWFpbC5jb20iLCJpYXQiOjE3MDQzNTU3NjYsImV4cCI6MTcwNDM1NjY2Nn0.j6t1y9OD-69XUGMLzfHt-L9q8gLP_EJSMYXJeh44_3A
 
 ### create new students acounts
 POST {{rootAPI}}

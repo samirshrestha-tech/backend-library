@@ -13,6 +13,10 @@ export const signJwtToken = (obj) => {
   return token;
 };
 
+export const accessJwtDecode = (accessJwt) => {
+  return jwt.verify(accessJwt, process.env.ACCESS_SECRET_KEY);
+};
+
 // refresh token,user table, exp : 30days
 
 export const signRefreshJwtToken = (email) => {

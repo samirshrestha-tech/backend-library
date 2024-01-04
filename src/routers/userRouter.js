@@ -6,19 +6,9 @@ import {
   newUserValidation,
 } from "../middlewares/joiValidation.js";
 import { signJwtToken, signJwts } from "../utils/jwtHelper.js";
+import { userAuth } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
-
-router.get("/", (req, res, next) => {
-  try {
-    res.json({
-      status: "success",
-      message: "to do get user",
-    });
-  } catch (error) {
-    next(error);
-  }
-});
 
 router.post("/", (req, res, next) => {
   try {
@@ -38,6 +28,7 @@ router.post("/login", loginValidation, async (req, res, next) => {
     // get user by email
 
     const user = await getUserByEmail(email);
+    // console.log(user);
 
     // check if the user exist in db bychecking the id and if exist then check the password from db and the plaintext matches
 
@@ -49,6 +40,7 @@ router.post("/login", loginValidation, async (req, res, next) => {
         // jwts
 
         const jwts = signJwts(user.email);
+        console.log(jwts);
         return res.json({
           status: "success",
           message: "to do post user",
@@ -93,6 +85,18 @@ router.post("/admin-user", newUserValidation, async (req, res, next) => {
       error.message = "There is already an user with this email id";
       error.errorCode = 200;
     }
+    next(error);
+  }
+});
+
+router.get("/", userAuth, (req, res, next) => {
+  try {
+    res.json({
+      status: "success",
+      message: "Here is your user info",
+      user: req.userInfo,
+    });
+  } catch (error) {
     next(error);
   }
 });
